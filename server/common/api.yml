@@ -40,7 +40,7 @@ definitions:
       lender_id:
         type: string
         enum: [CMG, STG, NCP, NAB]
-        example: CMB234
+        example: CMB
       assets:
         type: array
         items:
