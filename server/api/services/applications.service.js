@@ -15,6 +15,14 @@ class ApplicationsService {
   create(application) {
     return db.insert(application);
   }
+
+  update(application, id) {
+    return db.update(application, id);
+  }
+
+  deleteApp(application, id) {
+    return db.deleteApp(application, id);
+  }
 }
 
 export default new ApplicationsService();

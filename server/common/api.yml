@@ -24,6 +24,9 @@ definitions:
       - applicant_first_name
       - applicant_last_name
       - loan_amount
+      - lender_id
+      - assets
+      - liabilities
     properties:
       applicant_first_name:
         type: string
@@ -34,6 +37,40 @@ definitions:
       loan_amount:
         type: number
         example: 100000
+      lender_id:
+        type: string
+        example: CMB
+      assets:
+        type: array
+        items:
+          $ref: "#/definitions/Asset"
+        example:
+          - name: House
+            value: 1000
+      liabilities:
+        type: array
+        items:
+          $ref: "#/definitions/Asset"
+        example:
+          - name: House
+            value: 1000
+
+  Asset:
+    type: object
+    title: asset
+    required:
+      - name
+      - value
+    properties:
+      name:
+        type: string
+        example: House
+      value:
+        type: number
+        example: 1000
+    example:
+      name: House
+      value: 2000
 
 paths:
   /applications:
@@ -53,13 +90,34 @@ paths:
           in: body
           description: an application
           required: true
-          schema: 
+          schema:
             $ref: "#/definitions/ApplicationBody"
       responses:
         200:
           description: Returns all applications
 
   /applications/{id}:
+    put:
+      tags:
+        - Applications
+      description: Update a new application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the application to retrieve
+          type: integer
+        - name: application
+          in: body
+          description: an application
+          required: true
+          schema:
+            $ref: "#/definitions/ApplicationBody"
+      responses:
+        200:
+          description: Return the updated application with the specified id
+        404:
+          description: Application not found
     get:
       tags:
         - Applications
@@ -72,6 +130,20 @@ paths:
       responses:
         200:
           description: Return the application with the specified id
+        404:
+          description: Application not found
+    delete:
+      tags:
+        - Applications
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the application to retrieve
+          type: integer
+      responses:
+        200:
+          description: Return Success/Failure
         404:
           description: Application not found
 
